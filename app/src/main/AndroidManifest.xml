@@ -9,16 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Lotto">
-        <activity android:name=".MainActivity"
-            android:label="Main"></activity>
-        <activity android:name=".ResultActivity"
-            android:label="Result"/>
-        <activity android:name=".NameActivity"
-            android:label="Name"/>
-        <activity android:name=".ConstellationActivity"
-            android:label="Constellation"/>
-        <activity android:name=".PracintentActivity"
-            android:label="Pracintent">
+        <activity android:name=".ResultActivity"/>
+        <activity android:name=".NameActivity"/>
+        <activity android:name=".ConstellationActivity"/>
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
