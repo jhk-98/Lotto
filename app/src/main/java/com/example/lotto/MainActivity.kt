@@ -22,15 +22,17 @@ fun getRandomLottoNumbers(): MutableList<Int>{
     }
     return lottoNumbers
 }
+
+
 fun getShuffledLottoNumbers () : MutableList<Int>{
-    val list = mutableListOf<Int>()
+    val lottoNumbers = mutableListOf<Int>()
 
     for(number in 1..45){
-        list.add(number)
+        lottoNumbers.add(number)
     }
-    list.shuffle()
+    lottoNumbers.shuffle()
 
-    return  list.subList(0, 6)
+    return  lottoNumbers.subList(0, 6)
 }
 
 class MainActivity : AppCompatActivity() {
@@ -44,7 +46,7 @@ class MainActivity : AppCompatActivity() {
         val cardviewRandom = findViewById<CardView>(R.id.cardviewRandom)
         cardviewRandom.setOnClickListener{
             val intent = Intent(this,ResultActivity::class.java)
-            intent.putIntegerArrayListExtra("result", ArrayList(getRandomLottoNumbers()))
+            intent.putIntegerArrayListExtra("result", ArrayList(getShuffledLottoNumbers()))
             startActivity(intent)
         }
 
