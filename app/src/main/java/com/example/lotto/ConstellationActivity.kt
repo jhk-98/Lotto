@@ -13,7 +13,7 @@ class ConstellationActivity : AppCompatActivity() {
 
         Toast.makeText(this,"Constellation Activity", Toast.LENGTH_LONG).show()
 
-        val btnGoResult = findViewById<Button>(R.id.btnGoResult)
+        val btnGoResult = findViewById<Button>(R.id.btnGoResultConstell)
 
         btnGoResult.setOnClickListener {
             startActivity(Intent(this,ResultActivity::class.java))
