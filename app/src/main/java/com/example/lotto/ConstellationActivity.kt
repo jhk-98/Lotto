@@ -3,26 +3,11 @@ package com.example.lotto
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
-import android.widget.CalendarView
-import android.widget.DatePicker
-import android.widget.TextView
+import android.widget.*
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-fun getLottoNumbersFromHash(str: String): MutableList<Int>{
-
-    val list = mutableListOf<Int>()
-    for (number in 1..45){
-        list.add(number)
-    }
-    val targetString = SimpleDateFormat("yyyy-MM-dd-HH-mm-ss-SS", Locale.KOREA).format(Date()) + str
-
-    list.shuffle(Random(targetString.hashCode().toLong())) // 같은 seed 사용하면 항상 같은 sequence
-
-    return list.subList(0, 6)
-}
 
 
 class ConstellationActivity : AppCompatActivity() {
@@ -30,15 +15,19 @@ class ConstellationActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_constellation)
 
+        Toast.makeText(this,"Constellation Activity", Toast.LENGTH_LONG).show()
+
         val btnGoResult = findViewById<Button>(R.id.btnGoResultConstell)
         val datePicker = findViewById<DatePicker>(R.id.datePicker)
         val txtConstell = findViewById<TextView>(R.id.txtConstell)
-        txtConstell.text = makeConstellString(datePicker.month, datePicker.dayOfMonth)
+        txtConstell.text = makeConstellationString(datePicker.month, datePicker.dayOfMonth)
 
         btnGoResult.setOnClickListener {
             val intent = Intent(this, ResultActivity::class.java)
-            intent.putIntegerArrayListExtra("result", ArrayList(getLottoNumbersFromHash(txtConstell.text.toString())))
-            startActivity(Intent(this, ResultActivity::class.java))
+            intent.putIntegerArrayListExtra("result",
+                    ArrayList(getShuffledLottoNumbersFromHash(txtConstell.text.toString(),datePicker.month,datePicker.dayOfMonth)))
+            intent.putExtra("constellation", makeConstellationString(datePicker.month,datePicker.dayOfMonth))
+            startActivity(intent)
         }
         val calendar = Calendar.getInstance()
 
@@ -49,16 +38,28 @@ class ConstellationActivity : AppCompatActivity() {
                     }
 
                     override fun onDateChanged(view: DatePicker?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
-                        txtConstell.text = makeConstellString(datePicker.month,datePicker.dayOfMonth)
+                        txtConstell.text = makeConstellationString(datePicker.month,datePicker.dayOfMonth)
                     }
                 }
         )
+    }
+    fun getShuffledLottoNumbersFromHash(str: String, month: Int, dayOfMonth: Int): MutableList<Int>{
+        // 정수 list todtjd
+        val list = mutableListOf<Int>()
+        // list에 정수 저장
+        for (number in 1..45){
+            list.add(number)
         }
 
+        //   val targetString = SimpleDateFormat("yyyy-MM-dd-HH-mm-ss-SS", Locale.KOREA).format(Date()) + str
+        //val targetString = SimpleDateFormat("yyyy-MM-dd", Locale.KOREA).format(Date()) + str
+        val target = "${month + 1}${String.format("%02d",dayOfMonth)}".toString() + str
+        // list 섞기. SEED 값으로 이름의 hash 코드 사용
+        list.shuffle(Random(target.hashCode().toLong())) // 같은 seed 사용하면 항상 같은 sequence
+        // 앞에서부터 6개 반환
+        return list.subList(0, 6)
     }
-
-    private fun makeConstellString(month: Int, dayOfMonth: Int): String {
-
+    private fun makeConstellationString(month: Int, dayOfMonth: Int): CharSequence? {
         val target = "${month + 1}${String.format("%02d",dayOfMonth)}".toInt()
 
         when (target){
@@ -78,4 +79,6 @@ class ConstellationActivity : AppCompatActivity() {
             else -> return "기타별자리"
         }
     }
+}
+
 
