@@ -27,6 +27,8 @@ class ConstellationActivity : AppCompatActivity() {
             intent.putIntegerArrayListExtra("result",
                     ArrayList(getShuffledLottoNumbersFromHash(txtConstell.text.toString(),datePicker.month,datePicker.dayOfMonth)))
             intent.putExtra("constellation", makeConstellationString(datePicker.month,datePicker.dayOfMonth))
+            val date = ""+datePicker.year + "년" + datePicker.month +"월" + datePicker.dayOfMonth+"일"
+            intent.putExtra("date",date)
             startActivity(intent)
         }
         val calendar = Calendar.getInstance()
@@ -53,7 +55,7 @@ class ConstellationActivity : AppCompatActivity() {
 
         //   val targetString = SimpleDateFormat("yyyy-MM-dd-HH-mm-ss-SS", Locale.KOREA).format(Date()) + str
         //val targetString = SimpleDateFormat("yyyy-MM-dd", Locale.KOREA).format(Date()) + str
-        val target = "${month + 1}${String.format("%02d",dayOfMonth)}".toString() + str
+        val target = "${month + 1}${String.format("%02d",dayOfMonth)}"+ str
         // list 섞기. SEED 값으로 이름의 hash 코드 사용
         list.shuffle(Random(target.hashCode().toLong())) // 같은 seed 사용하면 항상 같은 sequence
         // 앞에서부터 6개 반환
