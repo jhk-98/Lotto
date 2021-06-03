@@ -95,7 +95,7 @@
                     android:layout_marginTop="8dp"
                     android:layout_weight="1"
                     android:gravity="center_horizontal|top"
-                    android:text="별자리 기반 숫자 생성"
+                    android:text="@string/constellnumber"
                     android:textSize="14sp" />
             </LinearLayout>
 
